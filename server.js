@@ -23,46 +23,41 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/unit18Populater
 app.get("/scrape", (req, res) => {
 
   axios.get("http://www.tearablepuns.org/").then(response => {
-  
-    const $ = cheerio.load(response.data);
 
-    $("h3.entry-header").each(function (i, element) {
+    const $ = cheerio.load(response.data);
       const result = {};
 
       //=======================================================
-      $("p.entry-body").each(function(i, element) {
+      $("div.entry-type-post").each(function (i, element) {
 
-        var title = $(element).text();
-      
-        var link = $(element).children().attr("href");
+        var title = $(element).find("h3").find("a").text();
+
+        var body = $(element).find(".entry-body").find("p").text();
         // ====================================================
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
+        result.title = title;
+        result.body = body;
 
-   
-      db.Article.create(result)
-        .then(dbArticle => {
-        
-          console.log(dbArticle);
-        })
-        .catch(err => {
-          
-          console.log(err);
-        });
-    });
+        console.log(result);
 
-    res.send("Scrape Complete");
+
+        db.Article.create(result)
+          .then(dbArticle => {
+
+            console.log(dbArticle);
+          })
+          .catch(err => {
+
+            console.log(err);
+          });
+      });
+
+      res.send("Scrape Complete");
   });
-});
 });
 
 
 app.get("/articles", (req, res) => {
-  
+
   db.Article.find({})
     .then(dbArticle => {
       res.json(dbArticle);
@@ -73,7 +68,7 @@ app.get("/articles", (req, res) => {
 
 
 app.get("/articles/:id", (req, res) => {
- 
+
   db.Article
     .findOne({ _id: req.params.id })
     .populate("note")
@@ -86,10 +81,10 @@ app.get("/articles/:id", (req, res) => {
 });
 
 app.post("/articles/:id", (req, res) => {
-  
+
   db.Note.create(req.body)
     .then(dbNote => {
-      return db.Article.findOneAndUpdate({_id: req.params.id}, {note: dbNote._id}, {new: true});
+      return db.Article.findOneAndUpdate({ _id: req.params.id }, { note: dbNote._id }, { new: true });
     }).then(dbArticle => {
       res.json(dbArticle);
     }).catch(err => {
