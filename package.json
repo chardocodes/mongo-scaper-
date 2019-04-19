@@ -1,0 +1,30 @@
+{
+  "name": "bad-puns-app",
+  "version": "1.0.0",
+  "description": "A web app that lets users view and leave comments on the latest news.",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.3",
+    "db": "^1.1.1",
+    "express": "^4.16.4",
+    "logger": "^0.0.1",
+    "mongodb": "^3.2.3",
+    "mongoose": "^5.5.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chardocodes/mongo-scaper-.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chardocodes/mongo-scaper-/issues"
+  },
+  "homepage": "https://github.com/chardocodes/mongo-scaper-#readme"
+}

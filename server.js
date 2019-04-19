@@ -2,13 +2,8 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
 const axios = require("axios");
 const cheerio = require("cheerio");
-
-// Require all models
 const db = require("./models");
 
 const PORT = process.env.PORT || 3000;
@@ -38,8 +33,7 @@ app.get("/scrape", (req, res) => {
       $("p.entry-body").each(function(i, element) {
 
         var title = $(element).text();
-        // In the currently selected element, look at its child elements (i.e., its a-tags),
-        // then save the values for any "href" attributes that the child elements may have
+      
         var link = $(element).children().attr("href");
         // ====================================================
       result.title = $(this)
@@ -49,14 +43,14 @@ app.get("/scrape", (req, res) => {
         .children("a")
         .attr("href");
 
-      // Create a new Article using the `result` object built from scraping
+   
       db.Article.create(result)
         .then(dbArticle => {
-          // View the added result in the console
+        
           console.log(dbArticle);
         })
         .catch(err => {
-          // If an error occurred, log it
+          
           console.log(err);
         });
     });
@@ -66,7 +60,7 @@ app.get("/scrape", (req, res) => {
 });
 });
 
-// Route for getting all Articles from the db
+
 app.get("/articles", (req, res) => {
   
   db.Article.find({})
@@ -79,9 +73,7 @@ app.get("/articles", (req, res) => {
 
 
 app.get("/articles/:id", (req, res) => {
-  // TODO
-  // ====
-  // Finish the route so it finds one article using the req.params.id,
+ 
   db.Article
     .findOne({ _id: req.params.id })
     .populate("note")
