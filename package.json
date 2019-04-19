@@ -10,7 +10,8 @@
     "express": "^4.16.4",
     "logger": "^0.0.1",
     "mongodb": "^3.2.3",
-    "mongoose": "^5.5.2"
+    "mongoose": "^5.5.2",
+    "morgan": "^1.9.1"
   },
   "devDependencies": {},
   "scripts": {
